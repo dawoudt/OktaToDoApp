@@ -1,12 +1,26 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+  <div id="nav">
+    <router-link to="/">Home</router-link> |
+    <router-link to="/about">About</router-link> |
+    <router-link to="/login">Login</router-link>
+    <span
+        v-if='authState && authState.isAuthenticated'
+        class="logout-button"
+        @click="logout"
+    >| logout</span>
   </div>
+  <router-view/>
 </template>
+
+<script lang="ts">
+import { Vue } from 'vue-class-component';
+
+export default class App extends Vue {
+  async logout() {
+    await this.$auth.signOut()
+  }
+}
+</script>
 
 <style>
 #app {
@@ -28,5 +42,9 @@
 
 #nav a.router-link-exact-active {
   color: #42b983;
+}
+
+.logout-button {
+  cursor: pointer;
 }
 </style>
