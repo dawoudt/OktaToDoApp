@@ -1,8 +1,8 @@
 export default {
   oidc: {
-    clientId: '0oa26c3o1mbzUY1tC5d7',
-    issuer: 'https://dev-73746063.okta.com/oauth2/default',
-    redirectUri: 'http://localhost:8080/login/callback',
+    clientId: process.env.VUE_APP_OKTA_CLIENT_ID,
+    issuer: `https://${process.env.VUE_APP_OKTA_DOMAIN}/oauth2/default`,
+    redirectUri: `http://${process.env.VUE_APP_OKTA_BASE_URL}/login/callback`,
     scopes: ['openid', 'profile', 'email'],
     pkce: true,
     testing: {
