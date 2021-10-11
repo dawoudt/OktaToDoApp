@@ -12,6 +12,11 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 
+from dotenv import load_dotenv
+
+
+load_dotenv()  # take environment variables from .env.
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -128,6 +133,6 @@ REST_FRAMEWORK = {
 }
 
 OKTA_CONFIG = dict(
-    VUE_APP_OKTA_CLIENT_ID="0oa26czo7lQZzmfEV5d7",
-    VUE_APP_OKTA_DOMAIN="https://dev-67344502.okta.com/oauth2/default"
+    DJANGO_APP_OKTA_CLIENT_ID=os.environ.get('DJANGO_APP_OKTA_CLIENT_ID', None),
+    DJANGO_APP_OKTA_DOMAIN=os.environ.get('DJANGO_APP_OKTA_DOMAIN', None),
 )

@@ -9,8 +9,8 @@ loop = asyncio.get_event_loop()
 
 def get_okta_config():
     return (
-        settings.OKTA_CONFIG['VUE_APP_OKTA_DOMAIN'],
-        settings.OKTA_CONFIG['VUE_APP_OKTA_CLIENT_ID']
+        settings.OKTA_CONFIG['DJANGO_APP_OKTA_DOMAIN'],
+        settings.OKTA_CONFIG['DJANGO_APP_OKTA_CLIENT_ID']
     )
 
 def is_access_token_valid(token, issuer=None, client_id=None):
