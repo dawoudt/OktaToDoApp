@@ -2,21 +2,29 @@ from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
 from rest_framework import permissions
 from .serializers import UserSerializer, GroupSerializer
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from rest_framework import status
+
+from rest_framework.views import APIView
+
+from . import helpers
 
 
-class UserViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows users to be viewed or edited.
-    """
-    queryset = User.objects.all().order_by('-date_joined')
-    serializer_class = UserSerializer
-    permission_classes = [permissions.IsAuthenticated]
+class Todo(APIView):
+    def get(self, request, format=None):
+        print(f"GET: {request}")
+        if bearer_token := request.META.get('HTTP_AUTHORIZATION', None):
+            if helpers.is_access_token_valid(bearer_token):
+                return Response({"Token": bearer_token}, status=status.HTTP_200_OK)
+
+            return Response({}, status=status.HTTP_401_UNAUTHORIZED)
+        else:
+            return Response({}, status=status.HTTP_403_FORBIDDEN)
 
 
-class GroupViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows groups to be viewed or edited.
-    """
-    queryset = Group.objects.all()
-    serializer_class = GroupSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    def post(self, request, format=None):
+        print(f"POST: {request}")
+        return Response({}, status=200)
+
+
