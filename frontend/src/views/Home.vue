@@ -21,6 +21,7 @@ export default class Home extends Vue {
 
   async mounted() {
     const loggedInUser = await this.$auth.getUser()
+    console.log(await this.$auth.getAccessToken())
     this.givenName = loggedInUser.given_name
     this.familyName = loggedInUser.family_name
   }
