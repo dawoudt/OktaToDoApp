@@ -1,15 +1,16 @@
 <template>
   <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link> |
-    <router-link to="/login">Login</router-link>
+    <router-link to="/">Home</router-link>
+    <router-link
+        v-if="!authState && !authState.isAuthenticated"
+        to="/login">Login</router-link>
     <span
         v-if='authState && authState.isAuthenticated'
         class="logout-button"
         @click="logout"
-    >| logout</span>
+    >Logout</span>
   </div>
-  <router-view/>
+  <router-view />
 </template>
 
 <script lang="ts">
@@ -23,6 +24,11 @@ export default class App extends Vue {
 </script>
 
 <style>
+body {
+  background: #111827;
+  color: white;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
