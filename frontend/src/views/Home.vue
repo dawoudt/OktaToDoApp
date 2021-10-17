@@ -1,7 +1,9 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <div class="user-profile">Hello I am Mr {{ givenName }} {{ familyName }}</div>
+    <img alt="Vue logo" src="../assets/logo.png" />
+    <div class="user-profile">
+      Hello I am Mr {{ givenName }} {{ familyName }}
+    </div>
 
     <div class="new-todo-box">
       <div class="new-todo-box-inner">
@@ -11,50 +13,111 @@
     </div>
 
     <div class="todo-list">
-      <div
-          class="todo-item"
-          v-for="todo of todoList"
-          v-bind:key="todo.id"
-      >
-        <input class="todo-item-checkbox" type="checkbox" v-model="todo['done']">
-        <div class="todo-item-title">{{ todo.itemTitle }}</div>
+      <div class="todo-item" v-for="todo of todoList" v-bind:key="todo.id">
+        <input
+          class="todo-item-checkbox"
+          type="checkbox"
+          v-model="todo['done']"
+          @change="updateTodo($event)"
+        />
+        <span hidden>{{ todo.id }}</span>
+
+        <div class="todo-item-title">{{ todo.title }}</div>
         <div class="todo-item-time">{{ todo.date }}</div>
       </div>
     </div>
-
-
   </div>
 </template>
 
 <script lang="ts">
-import { Vue } from 'vue-class-component';
+import { Vue } from "vue-class-component";
+import axios from "axios";
+
+interface Todo {
+  id: number;
+  title: string;
+  done: boolean;
+}
 
 export default class Home extends Vue {
-  givenName?: string = ''
-  familyName?: string = ''
+  givenName?: string = "";
+  familyName?: string = "";
+  todoList?: Todo[] = [];
+  newTodoTitle = "";
+  access_token?: string = "";
 
-  todoList = [
-    { id: 1, itemTitle: 'eat KBBQ', done: false },
-    { id: 2, itemTitle: 'watch squid game', done: false },
-    { id: 3, itemTitle: 'buy groceries', done: false },
-    { id: 4, itemTitle: 'buy BTC dip', done: false },
-    { id: 5, itemTitle: 'hug girlfriend', done: false },
-    { id: 6, itemTitle: 'hug girlfriend hug girlfriend hug girlfriend hug girlfriend hug girlfriend hug girlfriend hug girlfriend hug girlfriendlfriend hug girlfriend hug girlfriend hug girlfriendlfriend hug girlfriend hug girlfriend hug girlfriendlfriend hug girlfriend hug girlfriend hug girlfriendlfriend hug girlfriend hug girlfriend hug girlfriendlfriend hug girlfriend hug girlfriend hug girlfriendlfriend hug girlfriend hug girlfriend hug girlfriend', done: false },
-  ].reverse()
+  async getTodos() {
+    let access_token = await this.$auth.getAccessToken();
 
-  newTodoTitle = ''
+    axios
+      .get<Todo[]>("http://127.0.0.1:8000/todos/", {
+        headers: {
+          Authorization: `${access_token}`,
+        },
+      })
+      .then((res) => {
+        this.todoList = res.data;
+        this.todoList.reverse();
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
 
   async mounted() {
-    const loggedInUser = await this.$auth.getUser()
-    console.log(await this.$auth.getAccessToken())
-    this.givenName = loggedInUser.given_name
-    this.familyName = loggedInUser.family_name
+    let loggedInUser = await this.$auth.getUser();
+    this.givenName = loggedInUser.given_name;
+    this.familyName = loggedInUser.family_name;
+    await this.getTodos();
+  }
+
+  async updateTodo(e: any) {
+    let updatedDone = e.target.checked;
+    let todoId = e.srcElement.nextElementSibling.innerText;
+    let patchEndpoint = `http://127.0.0.1:8000/todos/${todoId}/`;
+    let access_token = await this.$auth.getAccessToken();
+
+    await axios
+      .patch(
+        patchEndpoint,
+        {
+          done: updatedDone,
+        },
+        {
+          headers: {
+            Authorization: `${access_token}`,
+          },
+        }
+      )
+      .catch((error) => {
+        console.error(error);
+      });
   }
 
   // events
-  createNewTodo() {
-    this.todoList.push({ id: this.todoList.length, itemTitle: this.newTodoTitle, done: false })
-    this.newTodoTitle = ''
+  async createNewTodo() {
+    let access_token = await this.$auth.getAccessToken();
+
+    axios
+      .post(
+        "http://127.0.0.1:8000/todos/",
+        {
+          title: this.newTodoTitle,
+          done: false,
+        },
+        {
+          headers: {
+            Authorization: `${access_token}`,
+          },
+        }
+      )
+      .then((res) => {
+        this.getTodos();
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    this.newTodoTitle = "";
   }
 }
 </script>
