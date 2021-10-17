@@ -1,5 +1,4 @@
 import asyncio
-import json
 from django.conf import settings
 from okta_jwt_verifier import JWTVerifier
 
@@ -27,6 +26,11 @@ def is_access_token_valid(token, issuer=None, client_id=None):
         return True
     except Exception:
         return False
+
+def parse_token(token, issuer=None, client_id=None):
+    issuer, client_id = get_okta_config()
+    jwt_verifier = JWTVerifier(issuer, client_id, 'api://default')
+    return jwt_verifier.parse_token(token)
 
 
 def is_id_token_valid(token, issuer, client_id, nonce):
