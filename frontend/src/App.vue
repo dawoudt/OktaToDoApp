@@ -1,6 +1,5 @@
 <template>
   <div id="nav">
-    <router-link to="/">Home</router-link>
     <router-link
         v-if="!authState && !authState.isAuthenticated"
         to="/login">Login</router-link>

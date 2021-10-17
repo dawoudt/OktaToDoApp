@@ -2,13 +2,13 @@
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png" />
     <div class="user-profile">
-      Hello I am Mr {{ givenName }} {{ familyName }}
+      Hello, {{ givenName }} {{ familyName }}
     </div>
 
     <div class="new-todo-box">
       <div class="new-todo-box-inner">
         <input class="new-todo-input" v-model="newTodoTitle" />
-        <button @click="createNewTodo">Make new TODO</button>
+        <button class="addButton" @click="createNewTodo">Add Todo</button>
       </div>
     </div>
 
@@ -133,12 +133,15 @@ export default class Home extends Vue {
   display: flex;
   justify-content: center;
   margin-bottom: 20px;
+
 }
 
 .new-todo-box-inner {
   border: 3px solid #1e2536;
-  width: 300px;
+  width: 400px;
   padding: 10px;
+  border-radius: 10px;
+
 }
 
 .new-todo-input {
@@ -149,7 +152,9 @@ export default class Home extends Vue {
   color: white;
   margin-left: 400px;
   margin-right: 400px;
-  border: 1px solid black;
+  border: 3px solid #1e2536;
+  border-radius: 10px;
+
 }
 
 .todo-item {
@@ -162,7 +167,35 @@ export default class Home extends Vue {
 }
 
 .todo-item-checkbox {
-  margin-right: 20px;
-  outline: 5px solid pink;
+  width: 1.3em;
+  height: 1.3em;
+  margin-right: 10px;
+  vertical-align: middle;
 }
+
+.addButton {
+	box-shadow:inset 0px 1px 0px 0px #bee2f9;
+	background:linear-gradient(to bottom, #63b8ee 5%, #468ccf 100%);
+	background-color:#63b8ee;
+	border-radius:6px;
+	border:1px solid #3866a3;
+	display:inline-block;
+	cursor:pointer;
+	color:#14396a;
+	font-family:Arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:6px 24px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #7cacde;
+}
+.addButton:hover {
+	background:linear-gradient(to bottom, #468ccf 5%, #63b8ee 100%);
+	background-color:#468ccf;
+}
+.addButton:active {
+	position:relative;
+	top:1px;
+}
+
 </style>
