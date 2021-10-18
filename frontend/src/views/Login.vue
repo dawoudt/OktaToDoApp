@@ -24,10 +24,10 @@ export default {
         clientId,
         redirectUri,
         // eslint-disable-next-line no-undef
-        logo: require('@/assets/logo.png'),
+        logo: require('@/assets/tick.png'),
         i18n: {
           en: {
-            'primaryauth.title': 'Sign in to Vue & Company'
+            'primaryauth.title': 'Sign in to Todo & Company'
           }
         },
         authParams: {

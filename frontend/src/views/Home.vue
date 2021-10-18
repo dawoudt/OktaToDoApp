@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
+    <img alt="Vue logo" src="../assets/tick.png" style="width:150px;height:160px;"/>
     <div class="user-profile">
       Hello, {{ givenName }} {{ familyName }}
     </div>
@@ -174,28 +174,12 @@ export default class Home extends Vue {
 }
 
 .addButton {
-	box-shadow:inset 0px 1px 0px 0px #bee2f9;
-	background:linear-gradient(to bottom, #63b8ee 5%, #468ccf 100%);
-	background-color:#63b8ee;
-	border-radius:6px;
-	border:1px solid #3866a3;
-	display:inline-block;
-	cursor:pointer;
-	color:#14396a;
-	font-family:Arial;
-	font-size:15px;
-	font-weight:bold;
-	padding:6px 24px;
-	text-decoration:none;
-	text-shadow:0px 1px 0px #7cacde;
-}
-.addButton:hover {
-	background:linear-gradient(to bottom, #468ccf 5%, #63b8ee 100%);
-	background-color:#468ccf;
-}
-.addButton:active {
-	position:relative;
-	top:1px;
+  cursor: pointer;
+  color: whitesmoke;
+  border: 2px solid whitesmoke;
+  padding: 7px;
+  border-radius: 10px;
+  background-color: rgb(22, 27, 51);
 }
 
 </style>

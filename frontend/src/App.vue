@@ -51,5 +51,10 @@ body {
 
 .logout-button {
   cursor: pointer;
+  color: whitesmoke;
+  border: 2px solid whitesmoke;
+  padding: 7px;
+  border-radius: 10px;
+  background-color: rgb(22, 27, 51);
 }
 </style>
